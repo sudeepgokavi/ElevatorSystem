@@ -2,7 +2,13 @@ package test.com.elevatorsystem;
 
 import java.util.TreeSet;
 
+import org.junit.Before;
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+import main.com.elevatorsystem.enums.ElevatorWorking;
 import main.com.elevatorsystem.impl.ElevatorImpl;
+//import static junit.framework.Assert.assertEquals;
 
 public class ElevatorTest {
 
@@ -17,6 +23,7 @@ public class ElevatorTest {
 		floors.add(6);
 		floors.add(8);
 		elevator.setAccessibleFloors(floors);
+		//elevator.setEleWorkingStatus(ElevatorWorking.ELEVATOR_UNDER_MAINTAIENCE);
 	}
 
 	public void elevatorInfo() {
@@ -24,42 +31,55 @@ public class ElevatorTest {
 		System.out.println("Elevator Accessed by - " + elevator.getAccessibleFloors());
 	}
 
+	// @Test
 	public void testAddingDestination() {
 		elevator.addNewDestinatoin(8);
 		System.out.println("Elevator's Next Destination - " + elevator.nextDestionation());
-		// assertEquals(TENTH_FLOOR, elevator.nextDestionation());
+		// assertEquals(8, elevator.nextDestionation());
 	}
 
 	public void moveElevatorUp(int floor) {
-		System.out.println("Current Floor - " + elevator.currentFloor());
-		System.out.println("Go To Floor - "+floor);
-		for (int i = elevator.currentFloor(); i < floor; i++) {
-			elevator.moveUp();
+		if (elevator.getEleWorkingStatus().equals(ElevatorWorking.ELEVATOR_WORKING)) {
+			System.out.println("Current Floor - " + elevator.currentFloor());
+			System.out.println("Go To Floor - " + floor);
+			for (int i = elevator.currentFloor(); i < floor; i++) {
+				elevator.moveUp();
+			}
+			System.out.println("Destination Floor - " + elevator.currentFloor());
+		} else {
+			System.out.println("Elevator Not Working. Appologies for the inconvinence caused !");
 		}
-		System.out.println("Destination Floor - " + elevator.currentFloor());
 	}
 
 	public void moveElevatorDown(int floor) {
-		for (int i = elevator.currentFloor(); i < 9; i++) {
-			elevator.moveUp();
+		if (elevator.getEleWorkingStatus().equals(ElevatorWorking.ELEVATOR_WORKING)) {
+			for (int i = elevator.currentFloor(); i < 9; i++) {
+				elevator.moveUp();
+			}
+
+			System.out.println("Current Floor - " + elevator.currentFloor());
+			System.out.println("Go To Floor - " + floor);
+			for (int i = elevator.currentFloor(); i > floor; i--) {
+				elevator.moveDown();
+			}
+			System.out.println("Destination Floor - " + elevator.currentFloor());
+		} else {
+			System.out.println("Elevator Not Working. Appologies for the inconvinence caused ! ");
 		}
-		
-		System.out.println("Current Floor - " + elevator.currentFloor());
-		System.out.println("Go To Floor - "+floor);
-		for (int i = elevator.currentFloor(); i > floor; i--) {
-			elevator.moveDown();
-		}
-		System.out.println("Destination Floor - " + elevator.currentFloor());
 	}
-	
-	public void checkIfAccessible(int floor){
-		if(elevator.getAccessibleFloors().contains(floor)){
-			System.out.println("Entered Floor is Accessible - "+floor);	
-		}else{
-			System.out.println("Elevator cannot be accessed from this floor - "+floor);
+
+	public void checkIfAccessible(int floor) {
+		if (elevator.getAccessibleFloors().contains(floor)) {
+			System.out.println("Entered Floor is Accessible - " + floor);
+		} else {
+			System.out.println("Elevator cannot be accessed from this floor - " + floor);
 		}
-		
 	}
+
+	public void changeElevatorWorkingStatus(ElevatorWorking eStaus) {
+		elevator.setEleWorkingStatus(eStaus);
+	}
+
 	public static void main(String args[]) {
 		ElevatorTest eleTest = new ElevatorTest();
 		eleTest.initializeElevator();
@@ -69,15 +89,26 @@ public class ElevatorTest {
 
 		// Testing the addition of Destination.
 		eleTest.testAddingDestination();
-		
-		// Testing Up Movement of the elevator
-		eleTest.moveElevatorUp(6);
-		
-		// Testing Down Movement of the elevator
-		eleTest.moveElevatorDown(2);
-		
+
 		// Check Floors Accessible
 		eleTest.checkIfAccessible(4);
 		eleTest.checkIfAccessible(3);
+
+		eleTest.changeElevatorWorkingStatus(ElevatorWorking.ELEVATOR_WORKING);
+		
+		// Testing Up Movement of the elevator
+		eleTest.moveElevatorUp(6);
+
+		// Testing Down Movement of the elevator
+		eleTest.moveElevatorDown(2);
+
+		eleTest.changeElevatorWorkingStatus(ElevatorWorking.ELEVATOR_UNDER_MAINTAIENCE);
+		
+		// Testing Up Movement of the elevator
+		eleTest.moveElevatorUp(8);
+
+		// Testing Down Movement of the elevator
+		eleTest.moveElevatorDown(4);
+
 	}
 }
