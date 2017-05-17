@@ -14,6 +14,9 @@ public class ElevatorTest {
 
 	private ElevatorImpl elevator;
 
+	/**
+	 * Initializing the elevator.
+	 */
 	// @Before
 	public void initializeElevator() {
 		elevator = new ElevatorImpl(0, "Elevator 1", 1);
@@ -26,11 +29,17 @@ public class ElevatorTest {
 		//elevator.setEleWorkingStatus(ElevatorWorking.ELEVATOR_UNDER_MAINTAIENCE);
 	}
 
+	/**
+	 * Getting the elevator info.
+	 */
 	public void elevatorInfo() {
 		System.out.println("Elevator Name - " + elevator.getElevatorName());
 		System.out.println("Elevator Accessed by - " + elevator.getAccessibleFloors());
 	}
 
+	/**
+	 * Adding new destination to the elevator.
+	 */
 	// @Test
 	public void testAddingDestination() {
 		elevator.addNewDestinatoin(8);
@@ -38,6 +47,10 @@ public class ElevatorTest {
 		// assertEquals(8, elevator.nextDestionation());
 	}
 
+	/**
+	 * Moving the elevator UP to a specific destination.
+	 * @param floor
+	 */
 	public void moveElevatorUp(int floor) {
 		if (elevator.getEleWorkingStatus().equals(ElevatorWorking.ELEVATOR_WORKING)) {
 			System.out.println("Current Floor - " + elevator.currentFloor());
@@ -51,6 +64,10 @@ public class ElevatorTest {
 		}
 	}
 
+	/**
+	 * Moving the elevator Down to a specific destination.
+	 * @param floor
+	 */
 	public void moveElevatorDown(int floor) {
 		if (elevator.getEleWorkingStatus().equals(ElevatorWorking.ELEVATOR_WORKING)) {
 			for (int i = elevator.currentFloor(); i < 9; i++) {
@@ -68,6 +85,10 @@ public class ElevatorTest {
 		}
 	}
 
+	/**
+	 * Check if the elevator has access to the specified floor.
+	 * @param floor
+	 */
 	public void checkIfAccessible(int floor) {
 		if (elevator.getAccessibleFloors().contains(floor)) {
 			System.out.println("Entered Floor is Accessible - " + floor);
@@ -76,6 +97,10 @@ public class ElevatorTest {
 		}
 	}
 
+	/**
+	 * Change elevator working status.
+	 * @param eStaus
+	 */
 	public void changeElevatorWorkingStatus(ElevatorWorking eStaus) {
 		elevator.setEleWorkingStatus(eStaus);
 	}

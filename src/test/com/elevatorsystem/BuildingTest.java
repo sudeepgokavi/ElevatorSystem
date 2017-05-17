@@ -6,6 +6,10 @@ public class BuildingTest {
 
 	private BuildingImpl building;
 
+	/**
+	 * Configuring the building.
+	 * 
+	 */
 	public void configureBuilding() {
 		building = new BuildingImpl("IT-Park");
 		building.setNoOfElevators(6);
